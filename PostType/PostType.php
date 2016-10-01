@@ -69,6 +69,16 @@ class PostType
 
     public function preparePost(WP_POST $post)
     {
+        $post->meta = $this->getMeta($post);
         return $post;
+    }
+
+    public function getMeta($post)
+    {
+        $postMeta = get_post_meta($post->ID, '', true);
+        foreach ($postMeta as $key => $meta) {
+            $postMeta[$key] = count($meta) > 1 ? $meta : $meta[0];
+        }
+        return $postMeta;
     }
 }
