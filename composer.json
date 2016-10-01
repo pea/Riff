@@ -1,3 +1,7 @@
 {
-    "name": "pea/riff"
+    "name": "pea/riff",
+    "require": {
+        "webdevstudios/cmb2": "v2.2.2.1",
+        "mmucklo/inflect": "*"
+    }
 }
