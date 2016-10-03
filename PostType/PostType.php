@@ -30,41 +30,43 @@ class PostType
     public function init()
     {
 
-        $labels = [
-            'name' => __(Inflect::pluralize($this->postTypeName)),
-            'singular_name' => __(Inflect::singularize($this->postTypeName)),
-            'menu_name' => __(Inflect::pluralize($this->postTypeName)),
-            'add_new' => __('Add ' . Inflect::singularize($this->postTypeName)),
-            'add_new_item' => __('Add ' . Inflect::singularize($this->postTypeName)),
-            'edit_item' => __('Edit ' . Inflect::singularize($this->postTypeName)),
-            'new_item' => __('Add ' . Inflect::singularize($this->postTypeName)),
-            'view_item' => __('View'),
-            'search_items' => __('Search ' . Inflect::pluralize($this->postTypeName)),
-            'not_found' => __('No ' . strtolower(Inflect::pluralize($this->postTypeName)) . ' found'),
-            'not_found_in_trash' => __('No ' . strtolower(Inflect::pluralize($this->postTypeName)) . ' found in trash')
-        ];
-        
-        $options = [
-            'labels' => $labels,
-            'public' => true,
-            'supports' => ['title', 'editor', 'thumbnail'],
-            'capability_type' => 'post',
-            'publicly_queryable' => true,
-            'exclude_from_search' => false,
-            'show_ui' => true,
-            'query_var' => true,
-            'rewrite' => [
-                'slug' => strtolower(Inflect::pluralize($this->postTypeName)),
+        if(!post_type_exists(strtolower(Inflect::singularize($this->postTypeName)))) {
+            $labels = [
+                'name' => __(Inflect::pluralize($this->postTypeName)),
+                'singular_name' => __(Inflect::singularize($this->postTypeName)),
+                'menu_name' => __(Inflect::pluralize($this->postTypeName)),
+                'add_new' => __('Add ' . Inflect::singularize($this->postTypeName)),
+                'add_new_item' => __('Add ' . Inflect::singularize($this->postTypeName)),
+                'edit_item' => __('Edit ' . Inflect::singularize($this->postTypeName)),
+                'new_item' => __('Add ' . Inflect::singularize($this->postTypeName)),
+                'view_item' => __('View'),
+                'search_items' => __('Search ' . Inflect::pluralize($this->postTypeName)),
+                'not_found' => __('No ' . strtolower(Inflect::pluralize($this->postTypeName)) . ' found'),
+                'not_found_in_trash' => __('No ' . strtolower(Inflect::pluralize($this->postTypeName)) . ' found in trash')
+            ];
+            
+            $options = [
+                'labels' => $labels,
+                'public' => true,
+                'supports' => ['title', 'editor', 'thumbnail'],
+                'capability_type' => 'post',
+                'publicly_queryable' => true,
+                'exclude_from_search' => false,
+                'show_ui' => true,
+                'query_var' => true,
+                'rewrite' => [
+                    'slug' => strtolower(Inflect::pluralize($this->postTypeName)),
+                    'hierarchical' => true,
+                    'with_front' => false
+                ],
                 'hierarchical' => true,
-                'with_front' => false
-            ],
-            'hierarchical' => true,
-            'has_archive' => true
-        ];
-        
-        $options = apply_filters(strtolower(Inflect::singularize($this->postTypeName)) . 'Options', $options);
-        
-        register_post_type(strtolower(Inflect::singularize($this->postTypeName)), $options);
+                'has_archive' => true
+            ];
+            
+            $options = apply_filters(strtolower(Inflect::singularize($this->postTypeName)) . 'Options', $options);
+            
+            register_post_type(strtolower(Inflect::singularize($this->postTypeName)), $options);
+        }
     }
 
     public function preparePost(WP_POST $post)
