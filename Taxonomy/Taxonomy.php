@@ -9,16 +9,17 @@ use WP_Query;
 
 class Taxonomy
 {
-    private $hierarchical = false;
-    private $postTypes = ['posts'];
+    public $hierarchical = true;
+    public $postTypes = ['post'];
+    public $terms = [];
 
     public function __construct()
     {
         $taxonomyName = basename(get_class($this), 'Taxonomy');
         $taxonomyName = explode('\\', $taxonomyName);
-        $this->taxonomyName = end($$taxonomyName);
+        $this->taxonomyName = end($taxonomyName);
 
-        add_action('after_switch_theme', [ &$this, 'themeActivation' ]);
+        $this->init();
     }
 
     public function themeActivation()
@@ -29,9 +30,9 @@ class Taxonomy
 
     public function init()
     {
-        $defaults = [
+        $options = [
             'labels' => [
-                'name' => __(Inflect::pluralize($this->taxonomyName)),
+                'name' => __(Inflect::singularize($this->taxonomyName)),
                 'singular_name' => __(Inflect::singularize($this->taxonomyName)),
                 'all_items' => __('All ' . Inflect::pluralize($this->taxonomyName)),
                 'edit_item' => __('Edit ' . Inflect::singularize($this->taxonomyName)),
@@ -55,9 +56,25 @@ class Taxonomy
             ]
         ];
         register_taxonomy(
-            Inflect::pluralize($this->taxonomyName),
-            [$this->$postTypes],
-            wp_parse_args($options, $defaults)
+            strtolower(Inflect::singularize($this->taxonomyName)),
+            $this->postTypes,
+            wp_parse_args($options, $options)
         );
+        $this->addTerms();
+    }
+
+    public function addTerms()
+    {
+        foreach ($this->terms as $key => $term) {
+            if (!term_exists($key, strtolower(Inflect::pluralize($this->taxonomyName)))) {
+                wp_insert_term(
+                    $term,
+                    strtolower(Inflect::singularize($this->taxonomyName)),
+                    [
+                        'slug' => $key
+                    ]
+                );
+            }
+        }
     }
 }
