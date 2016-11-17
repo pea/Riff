@@ -79,7 +79,7 @@ class PostType
     {
         $postMeta = get_post_meta($post->ID, '', true);
         foreach ($postMeta as $key => $meta) {
-            $postMeta[$key] = count($meta) > 1 ? $meta : $meta[0];
+            $postMeta[$key] = count($meta) > 1 ? maybe_unserialize($meta) : maybe_unserialize($meta[0]);
         }
         return $postMeta;
     }
