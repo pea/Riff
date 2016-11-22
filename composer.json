@@ -2,6 +2,7 @@
     "name": "pea/riff",
     "require": {
         "webdevstudios/cmb2": "v2.2.3.1",
-        "mmucklo/inflect": "*"
+        "mmucklo/inflect": "*",
+        "aws/aws-sdk-php": "^3.19"
     }
 }
