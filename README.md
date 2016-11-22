@@ -141,56 +141,56 @@ The S3 class instructs Wordpress to upload media straight to an AWS S3 bucket. T
 
 1. create an S3 bucket
 2. Attach a policy to the bucket. Example:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::YOUR_BUCKET_NAME/*"
-            ]
-        }
-    ]
-}
-```
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": [
+                    "s3:GetObject"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+                ]
+            }
+        ]
+    }
+    ```
 3. Create an IAM-user
 4. Attach a user policy to the IAM-user. Example:
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
+    ```json
     {
-      "Sid": "Stmt1407599749000",
-      "Effect": "Allow",
-      "Action": [
-        "s3:DeleteObject",
-        "s3:GetObject",
-        "s3:GetObjectAcl",
-        "s3:PutObject",
-        "s3:PutObjectAcl"
-      ],
-      "Resource": [
-        "arn:aws:s3:::YOUR_BUCKET_NAME/*"
-      ]
-    },
-    {
-      "Sid": "Stmt1407599782000",
-      "Effect": "Allow",
-      "Action": [
-        "s3:ListBucket"
-      ],
-      "Resource": [
-        "arn:aws:s3:::YOUR_BUCKET_NAME"
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Sid": "Stmt1407599749000",
+          "Effect": "Allow",
+          "Action": [
+            "s3:DeleteObject",
+            "s3:GetObject",
+            "s3:GetObjectAcl",
+            "s3:PutObject",
+            "s3:PutObjectAcl"
+          ],
+          "Resource": [
+            "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+          ]
+        },
+        {
+          "Sid": "Stmt1407599782000",
+          "Effect": "Allow",
+          "Action": [
+            "s3:ListBucket"
+          ],
+          "Resource": [
+            "arn:aws:s3:::YOUR_BUCKET_NAME"
+          ]
+        }
       ]
     }
-  ]
-}
-```
+    ```
 5. Create an access-key for the user and keep the credentials safe
 6. Configure `Common/Config/S3.php` with credentials generated.
 
