@@ -9,27 +9,30 @@ class S3
     private $bucket;
     private $client;
 
-    public function __construct()
+    public function __construct($config)
     {
+        $this->config = $config;
         add_action('init', [$this, 'init']);
     }
+    
     public function init()
     {
-        
-        $config = require 'config.php';
+        $this->bucket = $this->config['bucket'];
+        $this->client = S3Client::factory([
+            'region' => $this->config['region'],
+            'version' => $this->config['version'],
+            'credentials' => [
+                'key' => $this->config['key'],
+                'secret' => $this->config['secret'],
+            ],
+        ]);
 
-        $this->bucket = $config['bucket'];
-        $this->client = S3Client::factory(array(
-            'key' => $config['key'],
-            'secret' => $config['secret'],
-            'region' => $config['region'],
-            'version' => $config['version']
-        ));
         $this->client->registerStreamWrapper();
 
         add_action('upload_dir', [$this, 'filterUploadDir']);
 
     }
+
     public function getBasedir()
     {
         return 's3://' . $this->bucket;
