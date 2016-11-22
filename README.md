@@ -158,7 +158,7 @@ The S3 class instructs Wordpress to upload media straight to an AWS S3 bucket. T
                 }
             ]
         }
-    ```
+        ```
 
 3. Create an IAM-user
 4. Attach a user policy to the IAM-user. Example:
@@ -194,7 +194,7 @@ The S3 class instructs Wordpress to upload media straight to an AWS S3 bucket. T
           ]
         }
         ```
-    
+
 5. Create an access-key for the user and keep the credentials safe
 6. Configure `Common/Config/S3.php` with credentials generated.
 
