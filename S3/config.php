@@ -35,5 +35,5 @@ return array(
     /**
      * SDK version
      */
-    'version' => '3.19'
+    'version' => '2006-03-01'
 );
