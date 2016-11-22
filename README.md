@@ -198,4 +198,4 @@ Things to note:
 - Only new media is uploaded. Old media will need to be manually uploaded and the urls updated in the database
 - The url path structure is identical to that used by Wordpress. The only difference is in the domain. For example: https://my-bucket.s3.amazonaws.com/2016/11/beans.png
 
-Class based off [helmutschneider's plugin](https://github.com/helmutschneider/wp-s3)
+Class based off [@helmutschneider's plugin](https://github.com/helmutschneider/wp-s3)
