@@ -30,5 +30,10 @@ return array(
     /**
     * Enable to display raw http requests.
     */
-    'debug' => false
+    'debug' => false,
+
+    /**
+     * SDK version
+     */
+    'version' => '3.19'
 );

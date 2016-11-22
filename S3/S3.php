@@ -22,8 +22,9 @@ class S3
         $this->client = S3Client::factory(array(
             'key' => $config['key'],
             'secret' => $config['secret'],
-            'region' => $config['region']
-            ));
+            'region' => $config['region'],
+            'version' => $config['version']
+        ));
         $this->client->registerStreamWrapper();
 
         add_action('upload_dir', [$this, 'filterUploadDir']);
