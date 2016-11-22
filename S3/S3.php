@@ -20,7 +20,7 @@ class S3
         $this->bucket = $this->config['bucket'];
         $this->client = S3Client::factory([
             'region' => $this->config['region'],
-            'version' => $this->config['version'],
+            'version' => '2006-03-01',
             'credentials' => [
                 'key' => $this->config['key'],
                 'secret' => $this->config['secret'],
