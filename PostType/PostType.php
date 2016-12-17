@@ -11,7 +11,6 @@ class PostType
 {
     public function __construct()
     {
-
         $postTypeName = basename(get_class($this), 'PostType');
         $postTypeName = explode('\\', $postTypeName);
         $this->postTypeName = end($postTypeName);
@@ -29,20 +28,23 @@ class PostType
 
     public function init()
     {
+        if (!post_type_exists(strtolower(Inflect::singularize($this->postTypeName)))) {
 
-        if(!post_type_exists(strtolower(Inflect::singularize($this->postTypeName)))) {
+            $singular = __(Inflect::singularize($this->camelToHumanCase($this->postTypeName)));
+            $plural = __(Inflect::pluralize($this->camelToHumanCase($this->postTypeName)));
+
             $labels = [
-                'name' => __(Inflect::pluralize($this->postTypeName)),
-                'singular_name' => __(Inflect::singularize($this->postTypeName)),
-                'menu_name' => __(Inflect::pluralize($this->postTypeName)),
-                'add_new' => __('Add ' . Inflect::singularize($this->postTypeName)),
-                'add_new_item' => __('Add ' . Inflect::singularize($this->postTypeName)),
-                'edit_item' => __('Edit ' . Inflect::singularize($this->postTypeName)),
-                'new_item' => __('Add ' . Inflect::singularize($this->postTypeName)),
+                'name' => $plural,
+                'singular_name' => $singular,
+                'menu_name' => $plural,
+                'add_new' => __('Add ' . $singular),
+                'add_new_item' => __('Add ' . $singular),
+                'edit_item' => __('Edit ' . $singular),
+                'new_item' => __('Add ' . $singular),
                 'view_item' => __('View'),
-                'search_items' => __('Search ' . Inflect::pluralize($this->postTypeName)),
-                'not_found' => __('No ' . strtolower(Inflect::pluralize($this->postTypeName)) . ' found'),
-                'not_found_in_trash' => __('No ' . strtolower(Inflect::pluralize($this->postTypeName)) . ' found in trash')
+                'search_items' => __('Search ' . $plural),
+                'not_found' => __('No ' . $plural . ' found'),
+                'not_found_in_trash' => __('No ' . $plural . ' found in trash')
             ];
             
             $options = [
@@ -82,5 +84,11 @@ class PostType
             $postMeta[$key] = count($meta) > 1 ? maybe_unserialize($meta) : maybe_unserialize($meta[0]);
         }
         return $postMeta;
+    }
+
+    public function camelToHumanCase($string)
+    {
+        $string = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', ' $0', $string);
+        return $string;
     }
 }
