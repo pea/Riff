@@ -51,6 +51,16 @@ foreach ($query->posts as $example) {
 
 See comments in ColoursTaxonomy.php for options.
 
+#### Autoloading
+
+Instead of editing the composer.json file to include files in Common/ you can also autoload them by adding this to the `autoload` object in composer.json.
+
+```
+"psr-4": {
+    "Theme\\": ""
+}
+```
+
 ### Vendors
 
 #### Adding PHP vendors
