@@ -10,5 +10,8 @@
         "psr-4": {
             "Riff\\": "src/"
         }
-    }
+    },
+    "files": [
+      "vendor/webdevstudios/cmb2/init.php"
+    ],
 }
