@@ -6,7 +6,9 @@
         "mmucklo/inflect": "*",
         "aws/aws-sdk-php": "^3.19"
     },
-    "psr-4": {
-        "Riff\\": "src/"
+    "autoload": {
+        "psr-4": {
+            "Riff\\": "src/"
+        }
     }
 }
