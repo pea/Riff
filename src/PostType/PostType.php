@@ -16,7 +16,7 @@ class PostType
         $this->postTypeName = end($postTypeName);
 
         add_action('after_switch_theme', [ &$this, 'themeActivation' ]);
-        add_action('cmb2_init', [ &$this, 'init' ]);
+        add_action('init', [ &$this, 'init' ]);
         add_action('the_post', [ &$this, 'preparePost'], 10, 1);
     }
 
