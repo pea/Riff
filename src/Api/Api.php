@@ -15,7 +15,7 @@ class Api
         $uri = explode('/', $_SERVER['REQUEST_URI']);
         $reqName = end($uri);
         if ($uri[1] == 'api' ||
-            (str_replace('/', '', $currentBlog->path) == $uri[1] && $uri[2] == 'api') &&
+            (str_replace('/', '', $currentBlog->path) == $uri[1] && @$uri[2] == 'api') &&
             $reqName == $className) {
             $this->init();
             exit;
