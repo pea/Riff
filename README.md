@@ -7,10 +7,9 @@
 
 ### Documentation
 
-- [Riff](#riff)
-- [Start](Docs/Start.md)
-- [Post Type](Docs/PostType.md)
-- [Taxonomy](Docs/Taxonomy.md)
-- [User](Docs/User.md)
-- [Api](Docs/Api.md)
-- [S3](Docs/S3.md)
+- [Start](docs/Start.md)
+- [Post Type](docs/PostType.md)
+- [Taxonomy](docs/Taxonomy.md)
+- [User](docs/User.md)
+- [Api](docs/Api.md)
+- [S3](docs/S3.md)
