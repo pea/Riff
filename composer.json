@@ -1,7 +1,7 @@
 {
     "name": "pea/riff",
     "license": "MIT",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "require": {
         "mmucklo/inflect": "*",
         "aws/aws-sdk-php": "^3.19",

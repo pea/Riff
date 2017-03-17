@@ -111,11 +111,13 @@ class User
         ];
 
         $updateUserResponse = wp_update_user($this->user);
-
         if (!empty($this->meta)) {
             foreach ($this->meta as $key => $item) {
-                add_user_meta($this->ID, $key, $item);
-                $this->user['meta'][$key] = $item;
+                if (isset($item['value']['tmp_name'])) {
+                    $item['value'] = $this->uploadFile($item['value']);
+                }
+                update_user_meta($this->ID, $key, $item['value']);
+                $this->user['meta'][$key] = $item['value'];
             }
         }
     }
@@ -149,6 +151,32 @@ class User
                     $this->errors[$ch->toSnakeCase($meta['title']) . '_' . $ch->toSnakeCase($rule)] = $validation;
                 }
             }
+        }
+    }
+
+    /**
+     * Upload a file
+     * @param  array $file $_FILE
+     * @return int Attachment id
+     */
+    public function uploadFile($file)
+    {
+        if (!function_exists('wp_handle_upload')) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+        }
+        $upload = wp_handle_upload($file, ['test_form' => false]);
+        if (!isset($upload['error'])) {
+            $filename = $upload['file'];
+            $filetype = wp_check_filetype(basename($filename), null);
+            $attachment = [
+                'guid' => wp_upload_dir()['url'] . '/' . basename($filename),
+                'post_mime_type' => $filetype['type'],
+                'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
+                'post_content' => '',
+                'post_status' => 'inherit'
+            ];
+            $attachmentId = wp_insert_attachment($attachment, $filename);
+            return $attachmentId;
         }
     }
 
