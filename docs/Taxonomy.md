@@ -2,7 +2,7 @@
 
 ## Create a Taxonomy
 
-Extending the Taxonomy class will create a new taxonomy (see [Examples/Taxonomy/ColoursTaxonomy.php](../Examples/Taxonomy/ColoursTaxonomy.php)).
+Extending the Taxonomy class will create a new taxonomy (see [examples/Taxonomy/ColoursTaxonomy.php](../examples/Taxonomy/ColoursTaxonomy.php)).
 
 ## Settings
 
