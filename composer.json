@@ -1,5 +1,6 @@
 {
     "name": "pea/riff",
+    "description": "A simple library to make WordPress MVC-esk.",
     "license": "MIT",
     "require": {
         "mmucklo/inflect": "*",
