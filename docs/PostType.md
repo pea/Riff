@@ -2,7 +2,7 @@
 
 ## Create a Post Type
 
-Extending the PostType class will create a new post type (see [Examples/PostType/ExamplePostType.php](/examples/PostType/ExamplePostType.php)). The class name you choose will be used for the post type and should be suffixed with `PostType`.
+Extending the PostType class will create a new post type (see [Examples/PostType/ExamplePostType.php](../examples/PostType/ExamplePostType.php)). The class name you choose will be used for the post type and should be suffixed with `PostType`.
 
 ## Handling Pre-Existing Post Types
 
