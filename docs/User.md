@@ -1,6 +1,6 @@
 # User
 
-The user class takes care of user creation, updating, and validation. It also includes functionality to handle uploads for things like display pictures. (see [examples/User/CustomerUser.php](../examples/User/CustomerUser.php))
+The user class takes care of user creation, updating, and validation. It also includes functionality to handle uploads for things like display pictures. (see [examples/User/CustomerUser.php](../examples/User/CustomerUser.php)).
 
 ## Creating a New User
 
