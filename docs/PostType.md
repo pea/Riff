@@ -1,20 +1,27 @@
 # Post Type
 
-## Create a Custom Post Type
+## Create a Post Type
 
-1. Duplicate Common/PostType/ExamplesPostType.php
-2. Rename instances of 'example' to name of new post type
-3. Open functions.php and add `$<Name>PostType = new Common\PostType\<Name>PostType;`
-4. Open composer.json and add `Common/PostType/<Name>PostType.php` to the files array
-5. Run `composer dump-autoload`
+Extending the PostType class will create a new post type (see [Examples/PostType/ExamplePostType.php](../Examples/PostType/ExamplePostType.php)). The class name you choose will be used for the post type and should be suffixed with `PostType`.
 
-## Adding Additional Data to Posts
+## Handling Pre-Existing Post Types
 
-Riff allows you to append custom data to post objects. You can add data in preparePost().
+Riff can handle post types created by plugins, as well as the Post and Page post types. Simply match the name of your classes with them, e.g. `PagesPostType` or `PostPostType`.
 
-In single.php pages this data is available in $post. When using Wp_Query the preparePost method must be called to collect it.
+## Populating $post with Additional Data
 
-## Get Data with Wp_Query
+The preparePost method allows you to modify $post.
+
+```php
+public function preparePost(WP_Post $post)
+{
+    $post = parent::preparePost($post);
+    $post->foo = 'bar';
+    return $post;
+}
+```
+
+When retrieving posts with Wp_Query this data will not be available without calling `preparePost`.
 
 ```php
 $query = new WP_Query([ 'post_type' => 'example' ]);
@@ -24,3 +31,7 @@ foreach ($query->posts as $example) {
      print_r($example);
 }
 ```
+
+### Notes
+
+- Currently only post types with alphanumeric characters are supported.

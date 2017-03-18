@@ -1,56 +1,53 @@
 # Start
 
-## Autoloading
+## Install
 
-Instead of editing the composer.json file to include files in Common/ you can also autoload them by adding this to the `autoload` object in composer.json.
+Initiate a new Composer project into a WordPress theme and install Riff.
 
-```
-"psr-4": {
+`composer require pea/riff`
+
+## Autoloading Your Classes
+
+Add this to your composer.json.
+
+```json
+"autoload": {
+  "psr-4": {
     "Theme\\": ""
+  }
 }
 ```
 
-## Useful Code Snippets
+Add Composer's autoloader to your functions.php
 
-#### Redirect User After Registration
 ```php
-add_filter('registration_redirect', function () {
-    return home_url('/registration-confirmation');
-});
+require_once __DIR__ . '/vendor/autoload.php';
 ```
 
-#### Redirect User After Failed Login
-```php
-add_action('wp_login_failed', function () {
-    $referrer = $_SERVER['HTTP_REFERER'];
-    if (!empty($referrer) && !strstr($referrer, 'wp-login') && !strstr($referrer, 'wp-admin')) {
-        wp_redirect(home_url() . '/?login=failed');
-        exit;
-    }
-});
-```
+## Initiating your Riff Classes
 
-#### Redirect User After Login
-```php
-add_filter('login_redirect', function ($redirect_to, $request, $user) {
-    if (isset($user->roles) && is_array($user->roles)) {
-        if (in_array('administrator', $user->roles)) {
-            return $redirect_to;
-        } else {
-            return home_url() . '/custom-page';
-        }
-    } else {
-        return $redirect_to;
-    }
-}, 10, 3);
-
-### Get Data with Wp_Query
+After including the Composer autoloader you can initiate your Riff classes.
 
 ```php
-$query = new WP_Query([ 'post_type' => 'example' ]);
+namespace Theme;
 
-foreach ($query->posts as $example) {
-     $example = $ExamplesPostType->preparePost($example);
-     print_r($example);
-}
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Custom Post Types
+new Common\PostType\PostsPostType;
+new Common\PostType\PagesPostType;
+new Common\PostType\EventsPostType;
+
+// Taxonomies
+new Common\Taxonomy\ColoursTaxonomy;
+
+// Api
+new Common\Api\userLogout;
+new Common\Api\userRegistration;
+
+// Users
+new Common\User\CustomerUser;
+
+// S3
+new \Riff\S3\S3(require('Common/Config/S3.php'));
 ```

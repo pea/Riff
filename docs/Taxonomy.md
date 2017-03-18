@@ -2,10 +2,28 @@
 
 ## Create a Taxonomy
 
-1. Duplicate Common/Taxonomy/ColoursTaxonomy.php
-2. Rename instances of 'colour' to name of taxonomy
-3. Open functions.php and add `$<Name>Taxonomy = new Common\Taxonomy\<Name>Taxonomy;`
-4. Open composer.json and add `Common/Taxonomy/<Name>Taxonomy.php` to the files array
-5. Run `composer dump-autoload`
+Extending the Taxonomy class will create a new taxonomy (see [Examples/Taxonomy/ColoursTaxonomy.php](../Examples/Taxonomy/ColoursTaxonomy.php)).
 
-See comments in ColoursTaxonomy.php for options.
+## Settings
+
+### Attach the Taxonomy to Post Types
+
+```php
+public $postTypes = ['example', 'post'];
+```
+
+### Make the Taxonomy Hierarchical
+
+```php
+public $hierarchical = true;
+```
+
+### Add Terms to the Taxonomy
+
+```php
+public $terms = [
+    'red' => 'Red',
+    'green' => 'Green',
+    'blue' => 'Blue'
+];
+```
