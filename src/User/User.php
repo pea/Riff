@@ -51,10 +51,24 @@ class User
 
     public function __construct()
     {
-        // Get role name
-        $roleName = basename(get_class($this), 'User');
-        $roleName = explode('\\', $roleName);
-        $this->roleName = strtolower(end($roleName));
+        $className = basename(get_class($this), 'User');
+        $roleName = explode('\\', $className);
+
+        $ch = CaseHelperFactory::make(CaseHelperFactory::INPUT_TYPE_SPACE_CASE);
+        $this->roleSlug = $ch->toSnakeCase(end($roleName));
+        $this->roleName = $ch->toSpaceCase(end($roleName));
+
+        if (!get_role($this->roleName)) {
+            add_role(
+                $this->roleSlug,
+                $this->roleName,
+                [
+                    'read'         => false,
+                    'edit_posts'   => false,
+                    'delete_posts' => false,
+                ]
+            );
+        }
     }
 
     /**
