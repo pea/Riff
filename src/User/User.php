@@ -54,9 +54,9 @@ class User
         $className = basename(get_class($this), 'User');
         $roleName = explode('\\', $className);
 
-        $ch = CaseHelperFactory::make(CaseHelperFactory::INPUT_TYPE_SPACE_CASE);
-        $this->roleSlug = $ch->toSnakeCase(end($roleName));
-        $this->roleName = $ch->toSpaceCase(end($roleName));
+        $ch = CaseHelperFactory::make(CaseHelperFactory::INPUT_TYPE_PASCAL_CASE);
+        $this->roleSlug = strtolower($ch->toSnakeCase(end($roleName)));
+        $this->roleName = ucwords($ch->toSpaceCase(end($roleName)));
 
         if (!get_role($this->roleName)) {
             add_role(
