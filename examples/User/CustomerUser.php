@@ -6,7 +6,7 @@ use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 use Riff\User\User;
 
-class StudentUser extends User
+class CustomerUser extends User
 {
     public $meta = [
         '_phone' => [
