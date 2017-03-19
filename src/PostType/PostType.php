@@ -74,6 +74,7 @@ class PostType
     public function preparePost(WP_POST $post)
     {
         $post->meta = $this->getMeta($post);
+        $post->template = pathinfo(get_page_template_slug($post->ID), PATHINFO_FILENAME);
         return $post;
     }
 

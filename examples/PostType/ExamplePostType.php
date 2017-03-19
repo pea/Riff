@@ -38,6 +38,11 @@ class ExamplePostType extends PostType
     public function preparePost(WP_Post $post)
     {
         $post = parent::preparePost($post);
+        switch ($post->template) {
+            case 'page-login':
+                $post->foo = 'bar';
+                break;
+        }
         return $post;
     }
 
