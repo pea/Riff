@@ -160,6 +160,9 @@ class User
         foreach ($this->meta as $key => $meta) {
             foreach ($meta['rules'] as $rule) {
                 $validation = $this->$rule($meta['title'], @$meta['value']);
+                if (empty($meta['value']) && !in_array('notEmpty', $meta['rules'])) {
+                    continue;
+                }
                 if ($validation) {
                     $ch = CaseHelperFactory::make(CaseHelperFactory::INPUT_TYPE_SPACE_CASE);
                     $this->errors[$ch->toSnakeCase($meta['title']) . '_' . $ch->toSnakeCase($rule)] = $validation;
