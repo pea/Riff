@@ -121,7 +121,8 @@ class User
             'user_login' => $this->user_login,
             'user_nicename' => $this->user_nicename,
             'user_pass' => $this->user_pass,
-            'user_url' => $this->user_url
+            'user_url' => $this->user_url,
+            'role' => $this->roleSlug
         ];
 
         $updateUserResponse = wp_update_user($this->user);
