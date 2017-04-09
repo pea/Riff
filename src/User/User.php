@@ -162,9 +162,17 @@ class User
         foreach ($this->meta as $key => $meta) {
             foreach ($meta['rules'] as $rule) {
                 $validation = $this->$rule($meta['title'], @$meta['value']);
+
+                // If the meta field isn't present or required don't run other validation rules on it
                 if (empty($meta['value']) && !in_array('notEmpty', $meta['rules'])) {
                     continue;
                 }
+
+                // // If the meta file isn't present or required don't run other validation rules on it
+                if (isset($meta['value']['tmp_name']) && empty($meta['value']['tmp_name']) && !in_array('notEmpty', $meta['rules'])) {
+                    continue;
+                }
+                
                 if ($validation) {
                     $ch = CaseHelperFactory::make(CaseHelperFactory::INPUT_TYPE_SPACE_CASE);
                     $this->errors[$ch->toSnakeCase($meta['title']) . '_' . $ch->toSnakeCase($rule)] = $validation;
