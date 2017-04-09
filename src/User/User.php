@@ -128,7 +128,9 @@ class User
         $updateUserResponse = wp_update_user($this->user);
         if (!empty($this->meta)) {
             foreach ($this->meta as $key => $item) {
-                $item['value'] = false;
+                if (empty($item['value'])) {
+                    $item['value'] = '';
+                }
                 if (isset($item['value']['tmp_name'])) {
                     $item['value'] = $this->uploadFile($item['value']);
                 }
