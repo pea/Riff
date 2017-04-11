@@ -77,15 +77,19 @@ class User
      */
     public function save()
     {
-        $this->validate();
-        if (empty($this->errors)) {
-            // Update an existing user
-            if (isset($this->ID)) {
+        
+        // Update an existing user
+        if (isset($this->ID)) {
+            $this->validate(true);
+            if (empty($this->errors)) {
                 $this->updateUser();
             }
+        }
 
-            // Create a new user
-            if (!isset($this->ID)) {
+        // Create a new user
+        if (!isset($this->ID)) {
+            $this->validate();
+            if (empty($this->errors)) {
                 $response = wp_create_user($this->user_email, $this->user_pass, $this->user_email);
 
                 if (is_int($response)) {
@@ -128,7 +132,10 @@ class User
         $updateUserResponse = wp_update_user($this->user);
         if (!empty($this->meta)) {
             foreach ($this->meta as $key => $item) {
-                if (empty($item['value'])) {
+                if (!isset($item['value']) && empty($item['value'])) {
+                    $item['value'] = get_user_meta($this->ID, $key, true);
+                }
+                if (isset($item['value']) && empty($item['value'])) {
                     $item['value'] = '';
                 }
                 if (isset($item['value']['tmp_name'])) {
@@ -140,14 +147,20 @@ class User
         }
     }
 
-    public function validate()
+    public function validate($updating = false)
     {
+        // Validate Wordpress fields
         foreach ($this->validation as $key => $rules) {
             foreach ($rules as $rule) {
                 $validation = $this->$rule(
                     $this->titles[$key],
                     $this->$key
                 );
+
+                // If we're updating a user only validate data we're looking to change
+                if ($updating && !isset($this->$key)) {
+                    continue;
+                }
 
                 // If the field isn't present or required don't run other validation rules on it
                 if (empty($this->$key) && !in_array('notEmpty', $this->validation[$key])) {
@@ -161,9 +174,15 @@ class User
             }
         }
 
+        // Validate custom meta data
         foreach ($this->meta as $key => $meta) {
             foreach ($meta['rules'] as $rule) {
                 $validation = $this->$rule($meta['title'], @$meta['value']);
+
+                // If we're updating a user only validate data we're looking to change
+                if ($updating && !isset($meta['value'])) {
+                    continue;
+                }
 
                 // If the meta field isn't present or required don't run other validation rules on it
                 if (empty($meta['value']) && !in_array('notEmpty', $meta['rules'])) {
