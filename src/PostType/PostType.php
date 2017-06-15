@@ -2,6 +2,7 @@
 
 namespace Riff\PostType;
 
+use CaseHelper\CaseHelperFactory;
 use Inflect\Inflect;
 
 use WP_POST;
@@ -16,7 +17,8 @@ class PostType
         $this->postTypeName = end($postTypeName);
 
         add_action('after_switch_theme', [ &$this, 'themeActivation' ]);
-        add_action('init', [ &$this, 'init' ]);
+        add_action('init', [ &$this, 'loadExistingPostType' ], 20, 1);
+        add_action('init', [ &$this, 'init' ], 30, 1);
         add_action('the_post', [ &$this, 'preparePost'], 10, 1);
     }
 
@@ -28,8 +30,7 @@ class PostType
 
     public function init()
     {
-        if (!post_type_exists(strtolower(Inflect::singularize($this->postTypeName)))) {
-
+        if (!post_type_exists(strtolower($this->postTypeName))) {
             $singular = __(Inflect::singularize($this->camelToHumanCase($this->postTypeName)));
             $plural = __(Inflect::pluralize($this->camelToHumanCase($this->postTypeName)));
 
@@ -71,6 +72,30 @@ class PostType
         }
     }
 
+    public function loadExistingPostType()
+    {
+        $postTypeParamCaseSingular = $this->camelToParamCase(Inflect::singularize($this->postTypeName));
+        $postTypeSnakeCaseSingular = $this->camelToSnakeCase(Inflect::singularize($this->postTypeName));
+        $postTypeParamCasePlural = $this->camelToParamCase(Inflect::pluralize($this->postTypeName));
+        $postTypeSnakeCasePlural = $this->camelToSnakeCase(Inflect::pluralize($this->postTypeName));
+
+        if (post_type_exists(strtolower($postTypeParamCaseSingular))) {
+            $this->postTypeName = strtolower($postTypeParamCaseSingular);
+        }
+
+        if (post_type_exists(strtolower($postTypeSnakeCaseSingular))) {
+            $this->postTypeName = strtolower($postTypeSnakeCaseSingular);
+        }
+
+        if (post_type_exists(strtolower($postTypeParamCasePlural))) {
+            $this->postTypeName = strtolower($postTypeParamCasePlural);
+        }
+
+        if (post_type_exists(strtolower($postTypeSnakeCasePlural))) {
+            $this->postTypeName = strtolower($postTypeSnakeCasePlural);
+        }
+    }
+
     public function preparePost(WP_POST $post)
     {
         $post->meta = $this->getMeta($post);
@@ -90,6 +115,21 @@ class PostType
     public function camelToHumanCase($string)
     {
         $string = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', ' $0', $string);
+        $string = trim($string);
+        return $string;
+    }
+
+    public function camelToParamCase($string)
+    {
+        $string = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', '-$0', $string);
+        $string = substr($string, 1);
+        return $string;
+    }
+
+    public function camelToSnakeCase($string)
+    {
+        $string = preg_replace('/(?!^)[A-Z]{2,}(?=[A-Z][a-z])|[A-Z][a-z]/', '_$0', $string);
+        $string = substr($string, 1);
         return $string;
     }
 }
