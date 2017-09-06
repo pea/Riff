@@ -51,7 +51,7 @@ class PostType
             $options = [
                 'labels' => $labels,
                 'public' => true,
-                'supports' => ['title', 'editor', 'thumbnail'],
+                'supports' => ['title', 'editor', 'thumbnail', 'revisions'],
                 'capability_type' => 'post',
                 'publicly_queryable' => true,
                 'exclude_from_search' => false,
