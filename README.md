@@ -1,6 +1,6 @@
 ## Riff
 
-A simple library to make WordPress MVC-esk.
+A simple WordPress library.
 
 ### Documentation
 
