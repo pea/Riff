@@ -10,6 +10,8 @@ use WP_Query;
 
 class PostType
 {
+    public $postTypeOptions = [];
+    
     public function __construct()
     {
         $postTypeName = basename(get_class($this), 'PostType');
@@ -48,7 +50,7 @@ class PostType
                 'not_found_in_trash' => __('No ' . $plural . ' found in trash')
             ];
             
-            $options = [
+            $options = array_merge([
                 'labels' => $labels,
                 'public' => true,
                 'supports' => ['title', 'editor', 'thumbnail', 'revisions'],
@@ -64,7 +66,7 @@ class PostType
                 ],
                 'hierarchical' => true,
                 'has_archive' => true
-            ];
+            ], $this->postTypeOptions);
             
             $options = apply_filters(strtolower(Inflect::singularize($this->postTypeName)) . 'Options', $options);
             
