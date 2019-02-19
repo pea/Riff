@@ -12,6 +12,7 @@ class Taxonomy
     public $hierarchical = true;
     public $postTypes = ['post'];
     public $terms = [];
+    public $taxonomyOptions = [];
 
     public function __construct()
     {
@@ -30,7 +31,7 @@ class Taxonomy
 
     public function init()
     {
-        $options = [
+        $options = array_merge([
             'labels' => [
                 'name' => __(Inflect::singularize($this->taxonomyName)),
                 'singular_name' => __(Inflect::singularize($this->taxonomyName)),
@@ -54,7 +55,8 @@ class Taxonomy
             'rewrite' => [
                 'slug' => strtolower(Inflect::pluralize($this->taxonomyName))
             ]
-        ];
+        ], $this->taxonomyOptions);
+
         register_taxonomy(
             strtolower(Inflect::singularize($this->taxonomyName)),
             $this->postTypes,
